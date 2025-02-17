@@ -1,4 +1,71 @@
 ---
-title: 'Get Started'
-description: 'Start building with mkinf hub'
+sidebarTitle: 'Get Started'
+title: 'Getting Started with mkinf hub'
+description: 'This guide will walk you through setting up and running your first AI Agent using mkinf hub.'
 ---
+
+## Prerequisites
+- Python 3.9 or higher installed
+- Basic understanding of Python and LLM programming
+
+## 1. Create a mkinf Account
+Sign up for a free account at [hub.mkinf.io/signup](https://hub.mkinf.io/signup).
+<Check>During the beta period, all accounts receive unlimited free credits</Check>
+
+## 2. Configure Your API Key
+1. Go to [API Keys settings](https://hub.mkinf.io/settings/api-keys)
+2. Create an organization if you haven't already
+3. Generate and copy your API key
+4. Add the key to your project's `.env` file:
+
+```env .env
+MKINF_API_KEY=sk-org-...
+```
+
+## 3. Install the SDK
+Install the mkinf SDK using pip:
+
+```bash
+pip install mkinf
+```
+
+For specific versions, check the [PyPI repository](https://pypi.org/project/mkinf/).
+
+## 4. Find an AI Agent
+Browse available AI Agents at [mkinf hub](https://mkinf.io/hub) and select an agent that matches your use case
+
+  <img src="/images/repository-card.png" alt="Repository card showing an AI Agent" />
+
+## 5. Import and Use the Agent
+Check the "Use Agent" section of your chosen repository for import instructions
+
+  <img src="/images/use-agent-card.png" alt="Card showing how to import the AI Agent" />
+
+Import the agent into your code
+
+```python
+from mkinf import hub as mh
+
+tools = mh.pull(
+    ["ScrapeGraphAI/scrapegraphai"],
+    env={
+        "SCRAPEGRAPH_LLM_API_KEY": os.getenv("SCRAPEGRAPH_LLM_API_KEY"),
+        "SCRAPEGRAPH_LLM_MODEL": os.getenv("SCRAPEGRAPH_LLM_MODEL")
+    }
+)
+```
+
+<Note>
+Remember to configure any required environment variables specified in the agent's documentation.
+</Note>
+
+## Current Limitations
+
+<Warning>
+Currently, mkinf tools are compatible with LangChain chains and graphs. Support for other frameworks like CrewAI, AutoGen, and SmolAgents is coming soon.
+</Warning>
+
+## Next Steps
+- Explore the [API Reference](/api-reference) for detailed documentation
+- Check out our [examples repository](https://github.com/mkinf/examples) for implementation samples
+- Join our [Slack community](https://join.slack.com/t/mkinf-community/shared_invite/zt-2wa3mqqsx-27qHzCok~BCdZTowifer~g) for support
