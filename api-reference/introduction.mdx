@@ -1,8 +1,8 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'API v0.1 documentation'
 ---
-# API v0.1 documentation
+
 ## Getting Started
 
 Welcome to **mkinf**! This guide will help you get started with our GPU on-demand platform via API. We'll walk you through the process of authentication, listing available GPUs, create a VM and setup Firewall Rules.
@@ -71,7 +71,7 @@ Content-Type: application/json
 Authorization: Bearer {{access_key}}
 ```
 ### Email and password
-If you want to authenticate your requests using your email and password use the [Sign in](apidog://link/endpoint/9702878) endpoint.
+If you want to authenticate your requests using your email and password use the [Sign in](/api-reference/endpoint/auth/sign-in) endpoint.
 ```http
 POST /v0.1/auth/token HTTP/1.1
 Host: api.mkinf.io
@@ -92,7 +92,7 @@ Content-Type: application/json
     "token_type": "bearer"
 }
 ```
-If you want to refresh your Access Token use the [same endpoint](apidog://link/endpoint/9702878) as follow
+If you want to refresh your Access Token use the [same endpoint](/api-reference/endpoint/auth/sign-in) as follow
 ```http
 POST /v0.1/auth/token HTTP/1.1
 Host: api.mkinf.io
@@ -105,7 +105,7 @@ Content-Type: application/json
 ```
 
 ## List organizations
-Retrieve all your organizations using the [Lists Organizations](apidog://link/endpoint/9770469) endpoint
+Retrieve all your organizations using the [Lists Organizations](/api-reference/endpoint/organizations/list-organizations) endpoint
 ```http
 GET /v0.1/organizations HTTP/1.1
 Host: api.mkinf.io
@@ -124,7 +124,7 @@ Authorization: Bearer {{access_key}}
 ```
 
 ## List projects
-Retrieve all your organization project using the [Lists Projects](apidog://link/endpoint/9680952) endpoint
+Retrieve all your organization project using the [Lists Projects](/api-reference/endpoint/projects/list-projects) endpoint
 ```http
 GET /v0.1/projects HTTP/1.1
 Host: api.mkinf.io
@@ -145,7 +145,7 @@ Authorization: Bearer {{access_key}}
 
 ## Setup Billing Profile
 Before start using mkinf APIs you need to setup your billing profile.
-You can access your billing dashboard using [Billing](api-9650566).
+You can access your billing dashboard using [Billing](/api-reference/endpoint/misc/get-billing).
 ```http
 GET /v0.1/organizations/{organization_id}/billing HTTP/1.1
 Host: api.mkinf.io
@@ -160,9 +160,9 @@ Authorization: Bearer {{access_token}}
 Make sure to insert your **payment method**.
 
 ## Check available GPUs
-Check for available GPUs using the [availability](api-9650537) and [specs](api-9650538) endpoints.
+Check for available GPUs using the [List Availabilities](/api-reference/endpoint/misc/list-availabilities) and [List Specs](/api-reference/endpoint/misc/list-specs) endpoints.
 
-### [List availabilities](api-9650537)
+### [List Availabilities](/api-reference/endpoint/misc/list-availabilities)
 Retrieves the available GPUs per region.
 
 ```http
@@ -183,7 +183,7 @@ Authorization: Bearer {{access_token}}
 }
 ```
 
-### [List specs](api-9650538)
+### [List Specs](/api-reference/endpoint/misc/list-specs)
 Retrieves the available node specs.
 
 ```http
@@ -212,16 +212,16 @@ Authorization: Bearer {{access_token}}
 ```
 
 ## Launch a VM
-You can [create a new VM](api-9650534) using the `type` field to specify the model and amount of GPU. You need also to pass the `location` where you want to launch the VM, you can find all the available locations using the [availability](api-9650537) or [locations](api-9650564) endpoints. Finally you have to pass your `ssh_public_key`.
+You can [create a new VM](/api-reference/endpoint/vms/create-vm) using the `type` field to specify the model and amount of GPU. You need also to pass the `location` where you want to launch the VM, you can find all the available locations using the [List Availabilities](/api-reference/endpoint/misc/list-availabilities) or [List Locations](/api-reference/endpoint/misc/list-locations) endpoints. Finally you have to pass your `ssh_public_key`.
 
 ### 1. Generate SSH Key
 ```bash
-ssh-keygen -t rsa -b 4096 -C “your_email@example.com”
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
 This will create a public-private key pair in the `.ssh` directory.
 
-### 2. [List available OS images](api-9650563)
+### 2. [List Images](/api-reference/endpoint/misc/list-images)
 List and choose your preferred OS image.
 
 ```http
@@ -252,7 +252,7 @@ Authorization: Bearer {{access_token}}
 }
 ```
 
-### 3. [Create a VM](api-9650534)
+### 3. [Create a VM](/api-reference/endpoint/vms/create-vm)
 Specify the `name`, `type`, `location`, `image` and your `ssh_public_key`
 
 ```http
@@ -285,7 +285,7 @@ You can also specify a `startup_script` as well as a `shutdown_script`.
   }
 }
 ```
-### 4. [Check the VM operation status](api-9650540)
+### 4. [Check VM Operation Status](/api-reference/endpoint/operations/get-vm-operation)
 Use the `operation_id` to check the VM operation status.
 
 ```http
@@ -309,7 +309,7 @@ Authorization: Bearer {{access_token}}
   "completed_at": "2024-06-16T15:52:53Z"
 }
 ```
-### 5. [Retrieve a VM](api-9650532)
+### 5. [Get VM](/api-reference/endpoint/vms/get-vm)
 Use `metadata.id` to retrieve the instance you just created.
 ```http
 GET /v0.1/projects/{project_id}/vms/{vm_id} HTTP/1.1
@@ -388,10 +388,10 @@ Replace `YOUR_PRIVATE_KEY` with the path to your private SSH key and `INSTANCE_I
 
 
 ### 7. Deallocate instances
-When you don't need an instance anymore you can [terminate](api-9650536) it.
+When you don't need an instance anymore you can [terminate](/api-reference/endpoint/vms/terminate-vm) it.
 
 ## Firewall Rules
-Setup your [VPC Firewall Rules](api-9650552) to have desidered access to VMs.
+Setup your [VPC Firewall Rules](/api-reference/endpoint/firewall/create-rule) to have desidered access to VMs.
 
 ```http
 POST /v0.1/projects/{project_id}/vpc/firewall-rules HTTP/1.1
@@ -420,10 +420,10 @@ Authorization: Bearer {{access_token}}
   "vpc_network_id": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe"
 }
 ```
-Use [List Networks](api-9650558) to retrieve your `vpc_network_id` and [List VMs](api-9650533) to retrieve your VM `id` and set it as `resource_id`.
+Use [List Networks](/api-reference/endpoint/networks/list-networks) to retrieve your `vpc_network_id` and [List VMs](/api-reference/endpoint/vms/list-vms) to retrieve your VM `id` and set it as `resource_id`.
 
 ## Usage
-You can use [Usage](api-9650565) to retreives the products usage. Usage is updated daily shortly after midnight UTC.
+You can use [Usage](/api-reference/endpoint/misc/get-usage) to retreives the products usage. Usage is updated daily shortly after midnight UTC.
 
 ## Additional Tips
 - **API Documentation**: Refer to the detailed API documentation for more advanced features and configurations.
