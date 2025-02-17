@@ -11,6 +11,9 @@
     "light": "#A996F4",
     "dark": "#A996F4"
   },
+  "background": {
+    "decoration": "gradient"
+  },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
@@ -151,7 +154,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:info@mkinf.io"
+        "href": "https://join.slack.com/t/mkinf-community/shared_invite/zt-2wa3mqqsx-27qHzCok~BCdZTowifer~g"
       },
       {
         "label": "GPU Inference",
@@ -166,9 +169,12 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mkinf_io",
+      "slack": "https://join.slack.com/t/mkinf-community/shared_invite/zt-2wa3mqqsx-27qHzCok~BCdZTowifer~g",
+      "discord": "https://discord.gg/JTyz28gfbn",
       "github": "https://github.com/mkinf-io",
-      "linkedin": "https://linkedin.com/company/mkinf"
+      "x": "https://x.com/mkinf_io",
+      "linkedin": "https://linkedin.com/company/mkinf",
+      "reddit": "https://reddit.com/r/mkinf"
     }
   }
 }
