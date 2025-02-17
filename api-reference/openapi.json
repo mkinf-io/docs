@@ -1,195 +1,5738 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
+    "title": "mkinf API v0.1",
+    "description": "",
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
+  "tags": [],
   "paths": {
-    "/plants": {
+    "/": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
+        "summary": "Welcome",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "message": "mkinf API v0.1 👾"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/me": {
+      "get": {
+        "summary": "Get Me",
+        "deprecated": false,
+        "description": "Get current user/key info",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "email",
+                    "created_at",
+                    "updated_at"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "1125a742-2e75-4b1a-909a-e8ba86bcf862",
+                      "type": "user",
+                      "email": "info@mkinf.io",
+                      "created_at": "2024-08-05T10:59:59.017229Z",
+                      "updated_at": "2024-09-09T22:26:58.615993Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-200:OK": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "project_id": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "project_id",
+                    "created_at"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "26496b9a-31fb-4f88-b9a8-a282509df5a7",
+                      "type": "key",
+                      "project_id": "e91bb876-3358-466d-a49a-4fb524629906",
+                      "created_at": "2024-09-09T22:15:37.150307+00:00"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/auth/token": {
+      "post": {
+        "summary": "Sign in",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "enum": [
+                      "password",
+                      "refresh_token"
+                    ],
+                    "description": "Grant type"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password"
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "description": "Refresh token"
+                  }
+                },
+                "required": [
+                  "grant_type"
+                ]
+              },
+              "example": {
+                "grant_type": "password",
+                "email": "example@mkinf.io",
+                "password": "test1234"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Auth"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "access_token": "eyJhbG...",
+                      "refresh_token": "xdclrV...",
+                      "expires_in": 3600,
+                      "token_type": "bearer"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/change-password": {
+      "post": {
+        "summary": "Change password",
+        "deprecated": false,
+        "description": "Update your password",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "current_password": {
+                    "type": "string"
+                  },
+                  "new_password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "current_password",
+                  "new_password"
+                ]
+              },
+              "example": {
+                "current_password": "pass1234",
+                "new_password": "pass4567"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "message": "Password updated"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/request-password-reset": {
+      "post": {
+        "summary": "Request password reset",
+        "deprecated": false,
+        "description": "Request the reset of your password using the email",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              },
+              "example": {
+                "email": "example@mkinf.io"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "message": "Password reset requested. You should receive an email with the link to reset your password."
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/projects": {
+      "get": {
+        "summary": "Lists Projects",
+        "deprecated": false,
+        "description": "Retreives all your projects",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Plant"
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "string"
+                      },
+                      "organization_id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "version",
+                      "organization_id"
+                    ]
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "e91bb876-3358-466d-a49a-4fb524629906",
+                        "name": "mkinf",
+                        "version": "v0.1",
+                        "organization_id": "b5821b92-00d1-4d63-8ca7-c2457be75432"
+                      }
+                    ]
                   }
                 }
               }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            },
+            "headers": {}
           }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
         },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+        "security": [
+          {
+            "bearer": []
           }
-        }
+        ]
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+    "/projects/{id}": {
+      "get": {
+        "summary": "Get Project",
+        "deprecated": false,
+        "description": "Retreives a project",
+        "tags": [],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of plant to delete",
+            "description": "Project id",
             "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "organization": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "stripe_customer_id": {
+                          "type": "string"
+                        },
+                        "hasValidPaymentMethod": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "stripe_customer_id",
+                        "hasValidPaymentMethod"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "version",
+                    "organization"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "e91bb876-3358-466d-a49a-4fb524629906",
+                      "name": "mkinf",
+                      "version": "v0.1",
+                      "organization": {
+                        "id": "b5821b92-00d1-4d63-8ca7-c2457be75432",
+                        "name": "mkinf",
+                        "stripe_customer_id": "cus_QIwL1EwX5v9onK",
+                        "hasValidPaymentMethod": true
+                      }
+                    }
+                  }
                 }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/organizations/{id}": {
+      "get": {
+        "summary": "Get Organization",
+        "deprecated": false,
+        "description": "Retreives your organization",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Organization id",
+            "required": true,
+            "example": "b5821b92-00d1-4d63-8ca7-c2457be75432",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "stripe_customer_id": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "hasValidPaymentMethod": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "stripe_customer_id",
+                    "created_at",
+                    "hasValidPaymentMethod"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "b5821b92-00d1-4d63-8ca7-c2457be75432",
+                      "name": "mkinf",
+                      "stripe_customer_id": "cus_QIwL1EwX5v9onK",
+                      "created_at": "2024-09-09T22:17:22.478832+00:00",
+                      "hasValidPaymentMethod": true
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/organizations": {
+      "get": {
+        "summary": "Lists Organizations",
+        "deprecated": false,
+        "description": "Retreives all your organizations",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "stripe_customer_id": {
+                        "type": "string"
+                      },
+                      "hasValidPaymentMethod": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "b5821b92-00d1-4d63-8ca7-c2457be75432",
+                        "name": "mkinf",
+                        "stripe_customer_id": "cus_QIwL1EwX5v9onK",
+                        "hasValidPaymentMethod": true
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/availabilities": {
+      "get": {
+        "summary": "List availabilities",
+        "deprecated": false,
+        "description": "List availabile capacity with optional filters on location and product name.\nQuery params can be added one at the time",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_name",
+            "in": "query",
+            "description": "Node type",
+            "required": false,
+            "example": [
+              "a100.1x",
+              "a100.2x"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Location",
+            "required": false,
+            "example": [
+              "us-northcentral1-a"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
               }
             }
           }
-        }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "location": {
+                            "type": "string"
+                          },
+                          "available": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "location",
+                          "available"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "type": "a100.1x",
+                          "location": "us-northcentral1-a",
+                          "available": true
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/specs": {
+      "get": {
+        "summary": "List specs",
+        "deprecated": false,
+        "description": "Retrieve information about the types of VMs that are available",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "product_name": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "cpu_cores": {
+                            "type": "integer"
+                          },
+                          "cpu_type": {
+                            "type": "string"
+                          },
+                          "memory_gb": {
+                            "type": "integer"
+                          },
+                          "memory_type": {
+                            "type": "string"
+                          },
+                          "disk_gb": {
+                            "type": "integer"
+                          },
+                          "disk_type": {
+                            "type": "string"
+                          },
+                          "num_gpu": {
+                            "type": "integer"
+                          },
+                          "gpu_type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "product_name",
+                          "description",
+                          "cpu_cores",
+                          "cpu_type",
+                          "memory_gb",
+                          "memory_type",
+                          "disk_gb",
+                          "disk_type",
+                          "num_gpu",
+                          "gpu_type"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "product_name": "a100.1x",
+                          "description": "Nvidia A100 40GB",
+                          "cpu_cores": 12,
+                          "cpu_type": "vCPU",
+                          "memory_gb": 120,
+                          "memory_type": "RAM",
+                          "disk_gb": 128,
+                          "disk_type": "SSD",
+                          "num_gpu": 1,
+                          "gpu_type": "A100-PCIe-40GB"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/vms/operations": {
+      "get": {
+        "summary": "List VM Operations",
+        "deprecated": false,
+        "description": "List all the VM operations",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "resource_id",
+            "in": "query",
+            "description": "Resource id",
+            "required": false,
+            "example": "452580d7-41d1-4b63-b4d7-4e4e21e95f96",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "Operation status",
+            "required": false,
+            "example": "IN_PROGRESS",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lower_time_bound",
+            "in": "query",
+            "description": "Lower time bound",
+            "required": false,
+            "example": "2021-12-03T19:58:34Z",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "operation_id": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "metadata": {
+                            "type": "object",
+                            "properties": {
+                              "operation_name": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "request": {
+                                "type": "object",
+                                "properties": {}
+                              }
+                            },
+                            "required": [
+                              "operation_name",
+                              "id",
+                              "type",
+                              "request"
+                            ]
+                          },
+                          "result": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "started_at": {
+                            "type": "string"
+                          },
+                          "completed_at": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "operation_id",
+                          "state",
+                          "metadata",
+                          "result",
+                          "started_at",
+                          "completed_at"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "operation_id": "2d8fde0c-4115-462c-9bf3-547d6dae1555",
+                          "state": "SUCCEEDED",
+                          "metadata": {
+                            "operation_name": "CREATE",
+                            "id": "b3e571f6-c87d-4135-8081-ab219e92544e",
+                            "type": "vm",
+                            "request": {}
+                          },
+                          "result": {},
+                          "started_at": "2024-06-16T15:52:41Z",
+                          "completed_at": "2024-06-16T15:52:53Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/vms/operations/{id}": {
+      "get": {
+        "summary": "Get VM Operation",
+        "deprecated": false,
+        "description": "Get a VM operation",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Operation id",
+            "required": true,
+            "example": "2d8fde0c-4115-462c-9bf3-547d6dae1555",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation_id": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "properties": {
+                        "operation_name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "request": {
+                          "type": "object",
+                          "properties": {}
+                        }
+                      },
+                      "required": [
+                        "operation_name",
+                        "id",
+                        "type",
+                        "request"
+                      ]
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "started_at": {
+                      "type": "string"
+                    },
+                    "completed_at": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "operation_id",
+                    "state",
+                    "metadata",
+                    "started_at",
+                    "completed_at",
+                    "result"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation_id": "2d8fde0c-4115-462c-9bf3-547d6dae1555",
+                      "state": "SUCCEEDED",
+                      "metadata": {
+                        "operation_name": "CREATE",
+                        "id": "b3e571f6-c87d-4135-8081-ab219e92544e",
+                        "type": "vm",
+                        "request": {}
+                      },
+                      "result": {},
+                      "started_at": "2024-06-16T15:52:41Z",
+                      "completed_at": "2024-06-16T15:52:53Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/vms/{id}/disks": {
+      "post": {
+        "summary": "Attach Disks",
+        "deprecated": false,
+        "description": "Attach disks to a VM",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "VM id",
+            "required": true,
+            "example": "0086d29e-34b3-49b6-9194-0a1a6c024635",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "attach_disks": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "disk_id": {
+                          "type": "string",
+                          "description": "Disk id"
+                        },
+                        "attachment_type": {
+                          "type": "string",
+                          "enum": [
+                            "os",
+                            "data"
+                          ],
+                          "description": "Attachment type"
+                        },
+                        "mode": {
+                          "type": "string",
+                          "enum": [
+                            "read-only",
+                            "read-write"
+                          ],
+                          "description": "Mode"
+                        }
+                      },
+                      "required": [
+                        "disk_id",
+                        "attachment_type",
+                        "mode"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "attach_disks"
+                ]
+              },
+              "example": {
+                "attach_disks": [
+                  {
+                    "disk_id": "ab4a6b00-aa5f-408e-a9fb-ac6de5eb45ab",
+                    "attachment_type": "os",
+                    "mode": "read-only"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/vms/{id}/disks/deatach": {
+      "post": {
+        "summary": "Detach Disks",
+        "deprecated": false,
+        "description": "Detach disks from a VM",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "VM id",
+            "required": true,
+            "example": "0086d29e-34b3-49b6-9194-0a1a6c024635",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "detach_disks": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "detach_disks"
+                ]
+              },
+              "example": {
+                "detach_disks": [
+                  "09ae8411-0fbb-411c-898c-2b8f19622ae1",
+                  "123e4567-e89b-12d3-a456-426614174000"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/vms/{id}": {
+      "get": {
+        "summary": "Get VM",
+        "deprecated": false,
+        "description": "Get a VM instance",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "VM id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "project_id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string"
+                    },
+                    "ssh_destination": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "commitment_period": {
+                      "type": "integer"
+                    },
+                    "commitment_end": {
+                      "type": "string"
+                    },
+                    "disks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "string"
+                          },
+                          "location": {
+                            "type": "string"
+                          },
+                          "block_size": {
+                            "type": "integer"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          },
+                          "serial_number": {
+                            "type": "string"
+                          },
+                          "attachment_type": {
+                            "type": "string"
+                          },
+                          "mode": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "network_interfaces": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "network": {
+                            "type": "string"
+                          },
+                          "subnet": {
+                            "type": "string"
+                          },
+                          "interface_type": {
+                            "type": "string"
+                          },
+                          "mac_address": {
+                            "type": "string"
+                          },
+                          "ips": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "private_ipv4": {
+                                  "type": "object",
+                                  "properties": {
+                                    "address": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "address"
+                                  ]
+                                },
+                                "public_ipv4": {
+                                  "type": "object",
+                                  "properties": {
+                                    "address": {
+                                      "type": "string"
+                                    },
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "address",
+                                    "id",
+                                    "type"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "host_channel_adapters": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "virtualization_features": {
+                      "type": "object",
+                      "properties": {
+                        "nested_virtualization": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "nested_virtualization"
+                      ]
+                    },
+                    "instance_template_id": {
+                      "type": "string"
+                    },
+                    "instance_group_id": {
+                      "type": "string"
+                    },
+                    "reservation_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "project_id",
+                    "type",
+                    "state",
+                    "ssh_destination",
+                    "created_at",
+                    "updated_at",
+                    "name",
+                    "location",
+                    "commitment_period",
+                    "commitment_end",
+                    "disks",
+                    "network_interfaces",
+                    "host_channel_adapters",
+                    "virtualization_features",
+                    "instance_template_id",
+                    "instance_group_id",
+                    "reservation_id"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "b3e571f6-c87d-4135-8081-ab219e92544e",
+                      "project_id": "3291380a-19e9-4892-a139-2fa92aa740e2",
+                      "type": "l40s-48gb.1x",
+                      "state": "STATE_RUNNING",
+                      "ssh_destination": ":0",
+                      "created_at": "2024-06-16T15:52:41Z",
+                      "updated_at": "2024-06-16T15:52:53Z",
+                      "name": "mkinf-node",
+                      "location": "us-east1-a",
+                      "commitment_period": 0,
+                      "commitment_end": "",
+                      "disks": [
+                        {
+                          "id": "52822513-e425-4be9-8dd8-5c21d561ce11",
+                          "name": "OS-disk-b3e571f6-c87d-4135-8081-ab219e92544e",
+                          "type": "persistent-ssd",
+                          "size": "128GiB",
+                          "location": "vaeq-cu",
+                          "block_size": 0,
+                          "created_at": "2024-06-16T15:52:43Z",
+                          "updated_at": "2024-06-16T15:52:44Z",
+                          "serial_number": "B74EEFE8EFA0988490E",
+                          "attachment_type": "os",
+                          "mode": "read-write"
+                        }
+                      ],
+                      "network_interfaces": [
+                        {
+                          "id": "fdf58fb1-0185-40f2-aa20-b620e8a8562d",
+                          "name": "default-network-interface",
+                          "network": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe",
+                          "subnet": "7ceecd34-2631-4857-ad82-ceb9dfd09425",
+                          "interface_type": "Ethernet",
+                          "mac_address": "2e:2f:ae:ef:ae:16",
+                          "ips": [
+                            {
+                              "private_ipv4": {
+                                "address": "172.27.23.237"
+                              },
+                              "public_ipv4": {
+                                "address": "204.52.24.84",
+                                "id": "e130674a-c05e-4345-b8a4-7928c6649574",
+                                "type": "dynamic"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "host_channel_adapters": [],
+                      "virtualization_features": {
+                        "nested_virtualization": false
+                      },
+                      "instance_template_id": "",
+                      "instance_group_id": "",
+                      "reservation_id": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update VM",
+        "deprecated": false,
+        "description": "Change the state of a VM",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "VM id",
+            "required": true,
+            "example": "a0420944-2d47-4314-a67b-c18a4f95051e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "START",
+                      "STOP",
+                      "RESET",
+                      "UPDATE"
+                    ]
+                  }
+                },
+                "required": [
+                  "action"
+                ]
+              },
+              "example": {
+                "action": "STOP"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "result": {
+                          "type": "null"
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "completed_at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "operation_id",
+                        "state",
+                        "result",
+                        "started_at",
+                        "completed_at",
+                        "metadata"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Terminate VM",
+        "deprecated": false,
+        "description": "Terminate a VM instance",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "VM id",
+            "required": true,
+            "example": "a0420944-2d47-4314-a67b-c18a4f95051e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/vms": {
+      "get": {
+        "summary": "List VMs",
+        "deprecated": false,
+        "description": "List all the VM instances you have access to",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "VM ids",
+            "required": false,
+            "example": [
+              "ab4a6b00-aa5f-408e-a9fb-ac6de5eb45ab"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "names",
+            "in": "query",
+            "description": "VM names",
+            "required": false,
+            "example": [
+              "my-vm"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "types",
+            "in": "query",
+            "description": "VM types",
+            "required": false,
+            "example": [
+              "a40.2x",
+              "a100.8x"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "locations",
+            "in": "query",
+            "description": "Locations",
+            "required": false,
+            "example": [
+              "us-east1",
+              "us-northcentral1"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "states",
+            "in": "query",
+            "description": "VM status",
+            "required": false,
+            "example": [
+              "RUNNING"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit",
+            "required": false,
+            "example": "20",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort",
+            "required": false,
+            "example": "name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "next_token",
+            "in": "query",
+            "description": "Next page",
+            "required": false,
+            "example": "bXktZmlyc3Qtdm0",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prev_token",
+            "in": "query",
+            "description": "Prev page",
+            "required": false,
+            "example": "bXktZmlyc3Qtdm0",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "project_id": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "ssh_destination": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "location": {
+                            "type": "string"
+                          },
+                          "commitment_period": {
+                            "type": "integer"
+                          },
+                          "commitment_end": {
+                            "type": "string"
+                          },
+                          "disks": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "size": {
+                                  "type": "string"
+                                },
+                                "location": {
+                                  "type": "string"
+                                },
+                                "block_size": {
+                                  "type": "integer"
+                                },
+                                "created_at": {
+                                  "type": "string"
+                                },
+                                "updated_at": {
+                                  "type": "string"
+                                },
+                                "serial_number": {
+                                  "type": "string"
+                                },
+                                "attachment_type": {
+                                  "type": "string"
+                                },
+                                "mode": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "network_interfaces": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "network": {
+                                  "type": "string"
+                                },
+                                "subnet": {
+                                  "type": "string"
+                                },
+                                "interface_type": {
+                                  "type": "string"
+                                },
+                                "mac_address": {
+                                  "type": "string"
+                                },
+                                "ips": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "private_ipv4": {
+                                        "type": "object",
+                                        "properties": {
+                                          "address": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "address"
+                                        ]
+                                      },
+                                      "public_ipv4": {
+                                        "type": "object",
+                                        "properties": {
+                                          "address": {
+                                            "type": "string"
+                                          },
+                                          "id": {
+                                            "type": "string"
+                                          },
+                                          "type": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "address",
+                                          "id",
+                                          "type"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "host_channel_adapters": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "virtualization_features": {
+                            "type": "object",
+                            "properties": {
+                              "nested_virtualization": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "nested_virtualization"
+                            ]
+                          },
+                          "instance_template_id": {
+                            "type": "string"
+                          },
+                          "instance_group_id": {
+                            "type": "string"
+                          },
+                          "reservation_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "next_page_token": {
+                      "type": "string"
+                    },
+                    "prev_page_token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "next_page_token",
+                    "prev_page_token"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "id": "b3e571f6-c87d-4135-8081-ab219e92544e",
+                          "project_id": "3291380a-19e9-4892-a139-2fa92aa740e2",
+                          "type": "l40s-48gb.1x",
+                          "state": "STATE_RUNNING",
+                          "ssh_destination": ":0",
+                          "created_at": "2024-06-16T15:52:41Z",
+                          "updated_at": "2024-06-16T15:52:53Z",
+                          "name": "mkinf-node",
+                          "location": "us-east1-a",
+                          "commitment_period": 0,
+                          "commitment_end": "",
+                          "disks": [
+                            {
+                              "id": "52822513-e425-4be9-8dd8-5c21d561ce11",
+                              "name": "OS-disk-b3e571f6-c87d-4135-8081-ab219e92544e",
+                              "type": "persistent-ssd",
+                              "size": "128GiB",
+                              "location": "vaeq-cu",
+                              "block_size": 0,
+                              "created_at": "2024-06-16T15:52:43Z",
+                              "updated_at": "2024-06-16T15:52:44Z",
+                              "serial_number": "B74EEFE8EFA0988490E",
+                              "attachment_type": "os",
+                              "mode": "read-write"
+                            }
+                          ],
+                          "network_interfaces": [
+                            {
+                              "id": "fdf58fb1-0185-40f2-aa20-b620e8a8562d",
+                              "name": "default-network-interface",
+                              "network": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe",
+                              "subnet": "7ceecd34-2631-4857-ad82-ceb9dfd09425",
+                              "interface_type": "Ethernet",
+                              "mac_address": "2e:2f:ae:ef:ae:16",
+                              "ips": [
+                                {
+                                  "private_ipv4": {
+                                    "address": "172.27.23.237"
+                                  },
+                                  "public_ipv4": {
+                                    "address": "204.52.24.84",
+                                    "id": "e130674a-c05e-4345-b8a4-7928c6649574",
+                                    "type": "dynamic"
+                                  }
+                                }
+                              ]
+                            }
+                          ],
+                          "host_channel_adapters": [],
+                          "virtualization_features": {
+                            "nested_virtualization": false
+                          },
+                          "instance_template_id": "",
+                          "instance_group_id": "",
+                          "reservation_id": ""
+                        }
+                      ],
+                      "next_page_token": "",
+                      "prev_page_token": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create VM",
+        "deprecated": false,
+        "description": "Create a new VM instance",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "VM Type"
+                  },
+                  "image": {
+                    "type": "string",
+                    "description": "Image name"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Location"
+                  },
+                  "ssh_public_key": {
+                    "type": "string",
+                    "description": "SSH public key"
+                  },
+                  "disks": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "disk_id": {
+                          "type": "string",
+                          "description": "Disk id"
+                        },
+                        "attachment_type": {
+                          "type": "string",
+                          "enum": [
+                            "os",
+                            "data"
+                          ],
+                          "description": "Attachment type"
+                        },
+                        "mode": {
+                          "type": "string",
+                          "enum": [
+                            "read-only",
+                            "read-write"
+                          ],
+                          "description": "Attachment mode"
+                        }
+                      },
+                      "required": [
+                        "attachment_type",
+                        "disk_id",
+                        "mode"
+                      ],
+                      "description": "Disk"
+                    },
+                    "description": "Disks"
+                  },
+                  "startup_script": {
+                    "type": "string",
+                    "description": "Startup script"
+                  },
+                  "shutdown_script": {
+                    "type": "string",
+                    "description": "Shutdown script"
+                  }
+                },
+                "required": [
+                  "name",
+                  "ssh_public_key",
+                  "type",
+                  "location"
+                ]
+              },
+              "example": {
+                "name": "mkinf-node-01",
+                "type": "l40s-48gb.1x",
+                "location": "us-east1-a",
+                "image": "ubuntu22.04-nvidia-pcie-docker",
+                "ssh_public_key": "ssh-rsa AAAAB..."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/disks/operations": {
+      "get": {
+        "summary": "List Disk Operations",
+        "deprecated": false,
+        "description": "Retrieves information about the status of asynchronous operations initiated by the disks resource. All operations that are either in-flight or completed but not yet queried will be returned.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "resource_id",
+            "in": "query",
+            "description": "Resource id",
+            "required": false,
+            "example": "452580d7-41d1-4b63-b4d7-4e4e21e95f96",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "Operation status",
+            "required": false,
+            "example": "IN_PROGRESS",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "completed_at": {
+                            "type": "string"
+                          },
+                          "metadata": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "operation_id": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "started_at": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "completed_at": "2021-12-03T19:59:34Z",
+                          "metadata": {},
+                          "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                          "result": {},
+                          "started_at": "2021-12-03T19:58:34Z",
+                          "state": "IN_PROGRESS"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/disks/operations/{id}": {
+      "get": {
+        "summary": "Get Disk Operation",
+        "deprecated": false,
+        "description": "Retrieves information about the status of an asynchronous operation initiated by the disks resource.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Operation id",
+            "required": true,
+            "example": "ab4a6b00-aa5f-408e-a9fb-ac6de5eb45ab",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "completed_at": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "operation_id": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "started_at": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "completed_at",
+                    "metadata",
+                    "operation_id",
+                    "result",
+                    "started_at",
+                    "state"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "completed_at": "2021-12-03T19:59:34Z",
+                      "metadata": {},
+                      "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                      "result": {},
+                      "started_at": "2021-12-03T19:58:34Z",
+                      "state": "IN_PROGRESS"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/disks/{id}": {
+      "get": {
+        "summary": "Get Disk",
+        "deprecated": false,
+        "description": "Get a disk",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Disk id",
+            "required": true,
+            "example": "0086d29e-34b3-49b6-9194-0a1a6c024635",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "attached_to": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "attachment_type": {
+                            "type": "string"
+                          },
+                          "mode": {
+                            "type": "string"
+                          },
+                          "vm_id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "attachment_type",
+                          "mode",
+                          "vm_id"
+                        ]
+                      }
+                    },
+                    "block_size": {
+                      "type": "integer"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "serial_number": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "string",
+                      "description": "Disk size in gibibytes (GiB) or tebibytes (TiB) in the format [Size][GiB|TiB]"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "attached_to",
+                    "block_size",
+                    "created_at",
+                    "id",
+                    "location",
+                    "name",
+                    "serial_number",
+                    "size",
+                    "type",
+                    "updated_at"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "attached_to": [
+                        {
+                          "attachment_type": "string",
+                          "mode": "string",
+                          "vm_id": "123e4567-e89b-12d3-a456-426614174000"
+                        }
+                      ],
+                      "block_size": 4096,
+                      "created_at": "2021-12-03T19:58:34Z",
+                      "id": "123e4567-e89b-12d3-a456-426614174000",
+                      "location": "us-northcentral1-a",
+                      "name": "my-disk",
+                      "serial_number": "96FD14FDBCF7E21E8EC",
+                      "size": "10GiB",
+                      "type": "persistent-ssd",
+                      "updated_at": "2021-12-03T19:58:34Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update Disk",
+        "deprecated": false,
+        "description": "Change the size of a disk.\nSize should be in gibibytes (GiB) or tebibytes (TiB) in the format [Size][GiB|TiB]. E.g. 10GiB.\nA successful response from this resource will contain the async operation.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Disk id",
+            "required": true,
+            "example": "aea44433-04a7-4733-b9de-4b10c3f7e740",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "size": {
+                    "type": "string",
+                    "description": "New disk size in gibibytes (GiB) or tebibytes (TiB) in the format [Size][GiB|TiB]",
+                    "format": "[Size][GiB|TiB]"
+                  }
+                },
+                "required": [
+                  "size"
+                ]
+              },
+              "example": {
+                "size": "10GiB"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete Disk",
+        "deprecated": false,
+        "description": "Delete a disk",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Disk id",
+            "required": true,
+            "example": "1b95f3e9-4c15-4fe5-a9f2-9ec75b67b71d",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/disks": {
+      "get": {
+        "summary": "List Disks",
+        "deprecated": false,
+        "description": "List all the disks",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "attached_to": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "vm_id": {
+                                  "type": "string"
+                                },
+                                "attachment_type": {
+                                  "type": "string"
+                                },
+                                "mode": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "vm_id",
+                                "attachment_type",
+                                "mode"
+                              ]
+                            }
+                          },
+                          "block_size": {
+                            "type": "integer"
+                          },
+                          "location": {
+                            "type": "string"
+                          },
+                          "serial_number": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "string",
+                            "description": "Disk size in gibibytes (GiB) or tebibytes (TiB) in the format [Size][GiB|TiB]"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "attached_to",
+                          "block_size",
+                          "location",
+                          "serial_number",
+                          "size",
+                          "type",
+                          "created_at",
+                          "updated_at"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "attached_to": [
+                            {
+                              "attachment_type": "string",
+                              "mode": "string",
+                              "vm_id": "123e4567-e89b-12d3-a456-426614174000"
+                            }
+                          ],
+                          "block_size": 4096,
+                          "created_at": "2021-12-03T19:58:34Z",
+                          "id": "123e4567-e89b-12d3-a456-426614174000",
+                          "location": "us-northcentral1-a",
+                          "name": "my-disk",
+                          "serial_number": "96FD14FDBCF7E21E8EC",
+                          "size": "10GiB",
+                          "type": "persistent-ssd",
+                          "updated_at": "2021-12-03T19:58:34Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create Disk",
+        "deprecated": false,
+        "description": "Create a new disk.\nSize should be in gibibytes (GiB) or tebibytes (TiB) in the format [Size][GiB|TiB]. E.g. 10GiB.\nA successful response from this resource will contain the async operation.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Disk name"
+                  },
+                  "size": {
+                    "type": "string",
+                    "description": "Disk size in gibibytes (GiB) or tebibytes (TiB) in the format [Size][GiB|TiB]"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Location"
+                  },
+                  "block_size": {
+                    "type": "integer",
+                    "description": "Block size in bytes 512 or 4096",
+                    "format": "int64"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "persistent-ssd",
+                      "shared-volume"
+                    ],
+                    "default": "persistent-ssd",
+                    "description": "Disk type"
+                  }
+                },
+                "required": [
+                  "name",
+                  "size",
+                  "location"
+                ]
+              },
+              "example": {
+                "block_size": 4096,
+                "location": "us-northcentral1-a",
+                "name": "my-disk",
+                "size": "10GiB",
+                "type": "persistent-ssd"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/vpc/firewall-rules/operations": {
+      "get": {
+        "summary": "List Firewall Rule Operations",
+        "deprecated": false,
+        "description": "Retrieves information about the status of asynchronous operations initiated by the firewall rule resource. All operations that are either in-flight or completed but not yet queried will be returned.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "resource_id",
+            "in": "query",
+            "description": "Resource id",
+            "required": false,
+            "example": "452580d7-41d1-4b63-b4d7-4e4e21e95f96",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "Operation status",
+            "required": false,
+            "example": "IN_PROGRESS",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "operation_id": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "metadata": {
+                            "type": "object",
+                            "properties": {
+                              "operation_name": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "request": {
+                                "type": "object",
+                                "properties": {}
+                              }
+                            },
+                            "required": [
+                              "operation_name",
+                              "id",
+                              "request"
+                            ]
+                          },
+                          "result": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "started_at": {
+                            "type": "string"
+                          },
+                          "completed_at": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "operation_id",
+                          "state",
+                          "metadata",
+                          "started_at",
+                          "completed_at",
+                          "result"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "operation_id": "a8c24ef2-5b52-41b3-819c-f78f6c2fbff9",
+                          "state": "SUCCEEDED",
+                          "metadata": {
+                            "operation_name": "CREATE",
+                            "id": "48ff2db2-3882-496f-8497-3948bc57d1a9",
+                            "request": {
+                              "name": "mkinf-allow-tcp-udp",
+                              "direction": "DIRECTION_INGRESS",
+                              "action": "ACTION_ALLOW",
+                              "sources": [
+                                {
+                                  "cidr": "",
+                                  "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                                }
+                              ],
+                              "source_ports": [],
+                              "destinations": [
+                                {
+                                  "cidr": "",
+                                  "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                                }
+                              ],
+                              "destination_ports": [],
+                              "protocols": [
+                                "tcp",
+                                "udp"
+                              ],
+                              "vpc_network_id": ""
+                            }
+                          },
+                          "result": {
+                            "id": "48ff2db2-3882-496f-8497-3948bc57d1a9",
+                            "name": "mkinf-allow-tcp-udp",
+                            "direction": "ingress",
+                            "action": "allow",
+                            "vpc_network_id": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe",
+                            "state": "active",
+                            "sources": [
+                              {
+                                "cidr": "",
+                                "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                              }
+                            ],
+                            "source_ports": [],
+                            "destinations": [
+                              {
+                                "cidr": "",
+                                "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                              }
+                            ],
+                            "destination_ports": [],
+                            "protocols": [
+                              "tcp",
+                              "udp"
+                            ]
+                          },
+                          "started_at": "2024-06-16T20:12:16Z",
+                          "completed_at": "2024-06-16T20:12:16Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/vpc/firewall-rules/operations/{id}": {
+      "get": {
+        "summary": "Get Firewall Rule Operation",
+        "deprecated": false,
+        "description": "Retrieves information about the status of an asynchronous operation initiated by the firewall rule resource",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Operation id",
+            "required": true,
+            "example": "a8c24ef2-5b52-41b3-819c-f78f6c2fbff9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation_id": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "properties": {
+                        "operation_name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "request": {
+                          "type": "object",
+                          "properties": {}
+                        }
+                      },
+                      "required": [
+                        "operation_name",
+                        "id",
+                        "request"
+                      ]
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "started_at": {
+                      "type": "string"
+                    },
+                    "completed_at": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "operation_id",
+                    "state",
+                    "metadata",
+                    "started_at",
+                    "completed_at",
+                    "result"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation_id": "a8c24ef2-5b52-41b3-819c-f78f6c2fbff9",
+                      "state": "SUCCEEDED",
+                      "metadata": {
+                        "operation_name": "CREATE",
+                        "id": "48ff2db2-3882-496f-8497-3948bc57d1a9",
+                        "request": {
+                          "name": "mkinf-allow-tcp-udp",
+                          "direction": "DIRECTION_INGRESS",
+                          "action": "ACTION_ALLOW",
+                          "sources": [
+                            {
+                              "cidr": "",
+                              "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                            }
+                          ],
+                          "source_ports": [],
+                          "destinations": [
+                            {
+                              "cidr": "",
+                              "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                            }
+                          ],
+                          "destination_ports": [],
+                          "protocols": [
+                            "tcp",
+                            "udp"
+                          ],
+                          "vpc_network_id": ""
+                        }
+                      },
+                      "result": {
+                        "id": "48ff2db2-3882-496f-8497-3948bc57d1a9",
+                        "name": "mkinf-allow-tcp-udp",
+                        "direction": "ingress",
+                        "action": "allow",
+                        "vpc_network_id": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe",
+                        "state": "active",
+                        "sources": [
+                          {
+                            "cidr": "",
+                            "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                          }
+                        ],
+                        "source_ports": [],
+                        "destinations": [
+                          {
+                            "cidr": "",
+                            "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                          }
+                        ],
+                        "destination_ports": [],
+                        "protocols": [
+                          "tcp",
+                          "udp"
+                        ]
+                      },
+                      "started_at": "2024-06-16T20:12:16Z",
+                      "completed_at": "2024-06-16T20:12:16Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/vpc/firewall-rules/{id}": {
+      "get": {
+        "summary": "Get Firewall Rule",
+        "deprecated": false,
+        "description": "Retrieve details for a VPC firewall rule",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Firewall rule id",
+            "required": true,
+            "example": "c8c3d306-eff4-4d35-a09e-8efe320706c2",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "direction": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "vpc_network_id": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string"
+                    },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "cidr": {
+                            "type": "string"
+                          },
+                          "resource_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "source_ports": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "destinations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "cidr": {
+                            "type": "string"
+                          },
+                          "resource_id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "destination_ports": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "protocols": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "direction",
+                    "action",
+                    "vpc_network_id",
+                    "state",
+                    "sources",
+                    "source_ports",
+                    "destinations",
+                    "destination_ports",
+                    "protocols"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "c8c3d306-eff4-4d35-a09e-8efe320706c2",
+                      "name": "default-allow-subnet-tcp-udp-us-northcentral1-a",
+                      "direction": "ingress",
+                      "action": "allow",
+                      "vpc_network_id": "2d7fe075-b3d6-4201-b397-b17b754bece1",
+                      "state": "active",
+                      "sources": [
+                        {
+                          "cidr": "172.27.0.0/20",
+                          "resource_id": ""
+                        }
+                      ],
+                      "source_ports": [],
+                      "destinations": [
+                        {
+                          "cidr": "172.27.0.0/20",
+                          "resource_id": ""
+                        }
+                      ],
+                      "destination_ports": [],
+                      "protocols": [
+                        "tcp",
+                        "udp"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update Firewall Rule",
+        "deprecated": false,
+        "description": "Update a VPC firewall rule",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Firewall Rule id",
+            "required": true,
+            "example": "aea44433-04a7-4733-b9de-4b10c3f7e740",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "destination_ports": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "examples": [
+                        "80",
+                        "3000-8080"
+                      ],
+                      "description": "[80, 443, 3000-8080]"
+                    }
+                  },
+                  "destinations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "resource_id": {
+                          "type": "string"
+                        },
+                        "cidr": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "protocols": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "examples": [
+                        "tcp",
+                        "udp"
+                      ],
+                      "description": "tcp, udp"
+                    }
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "resource_id": {
+                          "type": "string"
+                        },
+                        "cidr": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "source_ports": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "examples": [
+                        "80",
+                        "3000-8080"
+                      ],
+                      "description": "[80, 443, 3000-8080]"
+                    }
+                  }
+                }
+              },
+              "example": {
+                "name": "mkinf-allow-tcp-udp"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete Firewall Rule",
+        "deprecated": false,
+        "description": "Delete a VPC firewall rule",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Firewall Rule id",
+            "required": true,
+            "example": "959e0796-9275-4ca6-8448-82e927f1d0ae",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/vpc/firewall-rules": {
+      "get": {
+        "summary": "List Firewall Rules",
+        "deprecated": false,
+        "description": "Retrieve details about all VPC firewall rules",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "direction": {
+                            "type": "string"
+                          },
+                          "action": {
+                            "type": "string"
+                          },
+                          "vpc_network_id": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "sources": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "cidr": {
+                                  "type": "string"
+                                },
+                                "resource_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "cidr",
+                                "resource_id"
+                              ]
+                            }
+                          },
+                          "source_ports": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "destinations": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "cidr": {
+                                  "type": "string"
+                                },
+                                "resource_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "cidr",
+                                "resource_id"
+                              ]
+                            }
+                          },
+                          "destination_ports": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "protocols": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "direction",
+                          "action",
+                          "vpc_network_id",
+                          "state",
+                          "sources",
+                          "source_ports",
+                          "destinations",
+                          "destination_ports",
+                          "protocols"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "id": "c8c3d306-eff4-4d35-a09e-8efe320706c2",
+                          "name": "default-allow-subnet-tcp-udp-us-northcentral1-a",
+                          "direction": "ingress",
+                          "action": "allow",
+                          "vpc_network_id": "2d7fe075-b3d6-4201-b397-b17b754bece1",
+                          "state": "active",
+                          "sources": [
+                            {
+                              "cidr": "172.27.0.0/20",
+                              "resource_id": ""
+                            }
+                          ],
+                          "source_ports": [],
+                          "destinations": [
+                            {
+                              "cidr": "172.27.0.0/20",
+                              "resource_id": ""
+                            }
+                          ],
+                          "destination_ports": [],
+                          "protocols": [
+                            "tcp",
+                            "udp"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create Firewall Rule",
+        "deprecated": false,
+        "description": "Create a new VPC firewall rule",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "vpc_network_id": {
+                    "type": "string"
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "allow",
+                      "deny"
+                    ]
+                  },
+                  "destination_ports": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "examples": [
+                        "80",
+                        "3000-8080"
+                      ],
+                      "description": "[80, 443, 3000-8080]"
+                    }
+                  },
+                  "destinations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "resource_id": {
+                          "type": "string"
+                        },
+                        "cidr": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "direction": {
+                    "type": "string",
+                    "enum": [
+                      "ingress",
+                      "egress"
+                    ]
+                  },
+                  "protocols": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "examples": [
+                        "tcp",
+                        "udp"
+                      ],
+                      "description": "tcp, udp"
+                    }
+                  },
+                  "sources": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "resource_id": {
+                          "type": "string"
+                        },
+                        "cidr": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "source_ports": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "examples": [
+                        "80",
+                        "3000-8080"
+                      ],
+                      "description": "[80, 443, 3000-8080]"
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "action",
+                  "destinations",
+                  "direction",
+                  "protocols",
+                  "sources",
+                  "vpc_network_id"
+                ],
+                "type": "object"
+              },
+              "example": {
+                "name": "mkinf-allow-tcp-udp",
+                "action": "allow",
+                "destinations": [
+                  {
+                    "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                  }
+                ],
+                "direction": "ingress",
+                "protocols": [
+                  "tcp",
+                  "udp"
+                ],
+                "sources": [
+                  {
+                    "cidr": "0.0.0.0/0"
+                  }
+                ],
+                "vpc_network_id": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {
+                            "operation_name": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "request": {
+                              "type": "object",
+                              "properties": {}
+                            }
+                          },
+                          "required": [
+                            "operation_name",
+                            "id",
+                            "request"
+                          ]
+                        },
+                        "result": {
+                          "type": "null"
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "completed_at": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "operation_id",
+                        "state",
+                        "metadata",
+                        "result",
+                        "started_at",
+                        "completed_at"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "operation_id": "a8c24ef2-5b52-41b3-819c-f78f6c2fbff9",
+                        "state": "IN_PROGRESS",
+                        "metadata": {
+                          "operation_name": "CREATE",
+                          "id": "48ff2db2-3882-496f-8497-3948bc57d1a9",
+                          "request": {
+                            "name": "mkinf-allow-tcp-udp",
+                            "direction": "DIRECTION_INGRESS",
+                            "action": "ACTION_ALLOW",
+                            "sources": [
+                              {
+                                "cidr": "",
+                                "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                              }
+                            ],
+                            "source_ports": [],
+                            "destinations": [
+                              {
+                                "cidr": "",
+                                "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+                              }
+                            ],
+                            "destination_ports": [],
+                            "protocols": [
+                              "tcp",
+                              "udp"
+                            ],
+                            "vpc_network_id": ""
+                          }
+                        },
+                        "result": null,
+                        "started_at": "2024-06-16T20:12:16Z",
+                        "completed_at": ""
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/vpc/networks/{id}": {
+      "get": {
+        "summary": "Get Network",
+        "deprecated": false,
+        "description": "Retrieve details for a VPC network",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Network id",
+            "required": true,
+            "example": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "subnets": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "gateway": {
+                      "type": "string"
+                    },
+                    "cidr": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "subnets",
+                    "gateway",
+                    "cidr"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe",
+                      "name": "default-vpc-network",
+                      "subnets": [
+                        "7ceecd34-2631-4857-ad82-ceb9dfd09425",
+                        "1f264f8a-a753-462a-8fa8-bfe7bdb90891",
+                        "778aaeef-5edd-4fc6-868f-b6cdd17795b7"
+                      ],
+                      "gateway": "898c4316-49d5-48c7-919c-4b7c71f006dc",
+                      "cidr": "172.27.0.0/16"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update Network",
+        "deprecated": false,
+        "description": "Update a VPC network",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Network id",
+            "required": true,
+            "example": "aea44433-04a7-4733-b9de-4b10c3f7e740",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "example": {
+                "size": "10GiB"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete disk",
+        "deprecated": false,
+        "description": "Delete a VPC network",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Network id",
+            "required": true,
+            "example": "1b95f3e9-4c15-4fe5-a9f2-9ec75b67b71d",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/vpc/networks": {
+      "get": {
+        "summary": "List Networks",
+        "deprecated": false,
+        "description": "Retrieve details about all VPC networks",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "subnets": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "gateway": {
+                            "type": "string"
+                          },
+                          "cidr": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "id": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe",
+                          "name": "default-vpc-network",
+                          "subnets": [
+                            "7ceecd34-2631-4857-ad82-ceb9dfd09425",
+                            "1f264f8a-a753-462a-8fa8-bfe7bdb90891",
+                            "778aaeef-5edd-4fc6-868f-b6cdd17795b7"
+                          ],
+                          "gateway": "898c4316-49d5-48c7-919c-4b7c71f006dc",
+                          "cidr": "172.27.0.0/16"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create Network",
+        "deprecated": false,
+        "description": "Create a new VPC network",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "cidr": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "example": {
+                "cidr": "172.27.0.0/16",
+                "name": "my-cool-vpc-network"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "operation": {
+                      "type": "object",
+                      "properties": {
+                        "completed_at": {
+                          "type": "string"
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "operation_id": {
+                          "type": "string"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "started_at": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "completed_at",
+                        "metadata",
+                        "operation_id",
+                        "result",
+                        "started_at",
+                        "state"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "operation"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "operation": {
+                        "completed_at": "2021-12-03T19:59:34Z",
+                        "metadata": {},
+                        "operation_id": "F6EF489C-086E-458D-B812-7962964A28C9",
+                        "result": {},
+                        "started_at": "2021-12-03T19:58:34Z",
+                        "state": "IN_PROGRESS"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{projectId}/images/{id}": {
+      "get": {
+        "summary": "Get image",
+        "deprecated": false,
+        "description": "Get an image",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "b3e571f6-c87d-4135-8081-ab219e92544e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Image id",
+            "required": true,
+            "example": "9abde4b7-15e8-4abd-891c-42242eb3567e",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "locations": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "tags",
+                    "created_at",
+                    "locations"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "0086d29e-34b3-49b6-9194-0a1a6c024635",
+                      "cluster_id": "1d34e6dc-51c1-4a9f-99f1-85cfdeee0579",
+                      "allocated_at": "2024-05-06T10:04:44+00:00",
+                      "deallocated_at": "2024-05-08T10:04:57+00:00",
+                      "price_usd": 3.2,
+                      "contract_type": "spot",
+                      "contracted_until": null,
+                      "node": {
+                        "id": "31e661cf-2e45-4636-b42c-24be3270d724",
+                        "ram": 80,
+                        "vcpu": 16,
+                        "gpu_count": 1,
+                        "gpu_model": {
+                          "id": "H100-80-SXM",
+                          "name": "H100",
+                          "vram": 80,
+                          "price_usd": 2.75,
+                          "form_factor": "SXM",
+                          "memory_bandwidth": 3350
+                        },
+                        "created_at": "2024-05-08T09:48:20.385259+00:00",
+                        "datacenter_id": "ef1a9b5e-462d-4708-a676-0a0a1b8f3b0c",
+                        "local_storage_volume": 80
+                      },
+                      "network": {
+                        "id": "5415f769-cd25-4a9f-be52-0bb3ccf594a4",
+                        "ipv6": "2001:0000:130F:0000:0000:09C0:876A:130B",
+                        "ipv4_public": "192.110.2.146",
+                        "ipv4_private": "133.10.92.114",
+                        "upload_speed": null,
+                        "download_speed": null
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "9abde4b7-15e8-4abd-891c-42242eb3567e",
+                      "name": "ubuntu22.04-nvidia-pcie-docker",
+                      "description": "Ubuntu 22.04, NVIDIA Driver 535.x, CUDA 12.0, nvidia-docker",
+                      "tags": [
+                        "2023-11-16"
+                      ],
+                      "created_at": "2023-11-16T22:02:00Z",
+                      "locations": [
+                        "us-northcentral1-a",
+                        "us-east1-a"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/images": {
+      "get": {
+        "summary": "List images",
+        "deprecated": false,
+        "description": "List all the available images",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "tags": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "locations": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "description",
+                          "tags",
+                          "created_at",
+                          "locations"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "id": "9abde4b7-15e8-4abd-891c-42242eb3567e",
+                          "name": "ubuntu22.04-nvidia-pcie-docker",
+                          "description": "Ubuntu 22.04, NVIDIA Driver 535.x, CUDA 12.0, nvidia-docker",
+                          "tags": [
+                            "2023-11-16"
+                          ],
+                          "created_at": "2023-11-16T22:02:00Z",
+                          "locations": [
+                            "us-northcentral1-a",
+                            "us-east1-a"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/locations": {
+      "get": {
+        "summary": "List Locations",
+        "deprecated": false,
+        "description": "List all the available locations",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        "us-southcentral1-a",
+                        "us-east1-a",
+                        "us-northcentral1-a"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/usage": {
+      "get": {
+        "summary": "Usage",
+        "deprecated": false,
+        "description": "Retreives the products usage. Usage is updated daily shortly after midnight UTC",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Project id",
+            "required": true,
+            "example": "e91bb876-3358-466d-a49a-4fb524629906",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "resource_types",
+            "in": "query",
+            "description": "Resources",
+            "required": false,
+            "example": [
+              "persistent-ssd",
+              "a40.1x"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "regions",
+            "in": "query",
+            "description": "Regions",
+            "required": false,
+            "example": [
+              "us-northcentral1-a"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "Start date",
+            "required": false,
+            "example": "2024-06-10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "End date",
+            "required": false,
+            "example": "2024-06-16",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "billable_metric": {
+                            "type": "string"
+                          },
+                          "date": {
+                            "type": "string"
+                          },
+                          "project_id": {
+                            "type": "string"
+                          },
+                          "quantity": {
+                            "type": "number"
+                          },
+                          "region": {
+                            "type": "string"
+                          },
+                          "reservation_id": {
+                            "type": "string"
+                          },
+                          "resource_type": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "items": [
+                        {
+                          "billable_metric": "gpu-hours",
+                          "date": "2022-07-01",
+                          "project_id": "d8f58dfd-dd86-4ee4-8f01-643e6d0f15bb",
+                          "quantity": 2.123,
+                          "region": "us-northcentral1",
+                          "reservation_id": "d8f58dfd-dd86-4ee4-8f01-643e6d0f15bb",
+                          "resource_type": "a40.1x"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/organizations/{id}/billing": {
+      "get": {
+        "summary": "Billing",
+        "deprecated": false,
+        "description": "Retreives the billing page url",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Organization id",
+            "required": true,
+            "example": "b5821b92-00d1-4d63-8ca7-c2457be75432",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "url"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "url": "https://billing.stripe.com/p/session/YMal3..."
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       }
     }
   },
   "components": {
     "schemas": {
-      "Plant": {
+      "Auth": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "refresh_token": {
+            "type": "string"
+          },
+          "expires_in": {
+            "type": "integer"
+          },
+          "token_type": {
+            "type": "string"
+          }
+        },
         "required": [
-          "name"
-        ],
+          "access_token",
+          "refresh_token",
+          "expires_in",
+          "token_type"
+        ]
+      },
+      "FirewallRule": {
         "type": "object",
         "properties": {
           "name": {
-            "description": "The name of the plant",
             "type": "string"
           },
-          "tag": {
-            "description": "Tag to specify the type",
+          "vpc_network_id": {
             "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
           },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
+          "action": {
+            "type": "string",
+            "enum": [
+              "allow",
+              "deny"
+            ]
+          },
+          "destination_ports": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "examples": [
+                "80",
+                "3000-8080"
+              ],
+              "description": "[80, 443, 3000-8080]"
+            }
+          },
+          "destinations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "resource_id": {
+                  "type": "string"
+                },
+                "cidr": {
+                  "type": "string"
+                }
               }
             }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
           },
-          "message": {
-            "type": "string"
+          "direction": {
+            "type": "string",
+            "enum": [
+              "ingress",
+              "egress"
+            ]
+          },
+          "protocols": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "examples": [
+                "tcp",
+                "udp"
+              ],
+              "description": "tcp, udp"
+            }
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "resource_id": {
+                  "type": "string"
+                },
+                "cidr": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "source_ports": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "examples": [
+                "80",
+                "3000-8080"
+              ],
+              "description": "[80, 443, 3000-8080]"
+            }
           }
-        }
+        },
+        "required": [
+          "name",
+          "action",
+          "destinations",
+          "direction",
+          "protocols",
+          "sources",
+          "vpc_network_id",
+          "destination_ports",
+          "source_ports"
+        ]
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
+      "bearer": {
         "type": "http",
         "scheme": "bearer"
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "url": "https://api.mkinf.io/v0.1",
+      "description": "Prod Env"
+    }
+  ],
+  "security": []
 }

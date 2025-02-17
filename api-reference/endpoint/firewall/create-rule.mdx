@@ -1,0 +1,21 @@
+---
+title: 'Create Firewall Rule'
+openapi: 'POST /projects/{id}/vpc/firewall-rules'
+---
+
+Create a new firewall rule in a project.
+
+### Required Parameters
+
+- `name`: Rule name
+- `action`: "allow" or "deny"
+- `direction`: "ingress" or "egress"
+- `vpc_network_id`: Network ID
+- `sources`: Source specifications
+- `destinations`: Destination specifications
+- `protocols`: Protocol list (e.g., "tcp", "udp")
+
+### Optional Parameters
+
+- `source_ports`: Source port ranges
+- `destination_ports`: Destination port ranges 

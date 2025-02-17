@@ -1,11 +1,15 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "mkinf",
+  "appearance": {
+    "default": "dark",
+    "strict": true
+  },
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#A996F4",
+    "light": "#A996F4",
+    "dark": "#A996F4"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -14,22 +18,21 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "mkinf",
             "pages": [
-              "introduction",
-              "quickstart",
-              "development"
+              "introduction"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Hub",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "hub/get-started"
+            ]
+          },
+          {
+            "group": "Grid",
+            "pages": [
+              "grid/get-started"
             ]
           }
         ]
@@ -44,11 +47,77 @@
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Getting Started",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete"
+              "api-reference/endpoint/welcome"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "api-reference/endpoint/auth/sign-in",
+              "api-reference/endpoint/auth/change-password",
+              "api-reference/endpoint/auth/request-password-reset",
+              "api-reference/endpoint/me/get-me"
+            ]
+          },
+          {
+            "group": "Projects",
+            "pages": [
+              "api-reference/endpoint/projects/list-projects",
+              "api-reference/endpoint/projects/get-project"
+            ]
+          },
+          {
+            "group": "Virtual Machines",
+            "pages": [
+              "api-reference/endpoint/vms/list-vms",
+              "api-reference/endpoint/vms/create-vm",
+              "api-reference/endpoint/vms/get-vm",
+              "api-reference/endpoint/vms/update-vm",
+              "api-reference/endpoint/vms/terminate-vm"
+            ]
+          },
+          {
+            "group": "Storage",
+            "pages": [
+              "api-reference/endpoint/disks/list-disks",
+              "api-reference/endpoint/disks/create-disk",
+              "api-reference/endpoint/disks/get-disk",
+              "api-reference/endpoint/disks/update-disk",
+              "api-reference/endpoint/disks/delete-disk"
+            ]
+          },
+          {
+            "group": "Networking",
+            "pages": [
+              "api-reference/endpoint/networks/list-networks",
+              "api-reference/endpoint/networks/create-network",
+              "api-reference/endpoint/networks/get-network"
+            ]
+          },
+          {
+            "group": "Firewall",
+            "pages": [
+              "api-reference/endpoint/firewall/list-rules",
+              "api-reference/endpoint/firewall/create-rule",
+              "api-reference/endpoint/firewall/get-rule"
+            ]
+          },
+          {
+            "group": "Operations",
+            "pages": [
+              "api-reference/endpoint/operations/list-vm-operations",
+              "api-reference/endpoint/operations/get-vm-operation"
+            ]
+          },
+          {
+            "group": "Other Resources",
+            "pages": [
+              "api-reference/endpoint/misc/list-locations",
+              "api-reference/endpoint/misc/list-images",
+              "api-reference/endpoint/misc/get-usage",
+              "api-reference/endpoint/misc/get-billing"
             ]
           }
         ]
@@ -57,45 +126,49 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Website",
+          "href": "https://mkinf.io/",
+          "icon": "house"
         },
         {
           "anchor": "Community",
-          "href": "https://mintlify.com/community",
+          "href": "https://join.slack.com/t/mkinf-community/shared_invite/zt-2wa3mqqsx-27qHzCok~BCdZTowifer~g",
           "icon": "slack"
         },
         {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://mkinf.substack.com",
           "icon": "newspaper"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/logo.svg",
+    "dark": "/logo/logo.svg"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:info@mkinf.io"
+      },
+      {
+        "label": "GPU Inference",
+        "href": "https://mkinf.io/grid"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Hub",
+      "href": "https://hub.mkinf.io"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/mkinf_io",
+      "github": "https://github.com/mkinf-io",
+      "linkedin": "https://linkedin.com/company/mkinf"
     }
   }
 }

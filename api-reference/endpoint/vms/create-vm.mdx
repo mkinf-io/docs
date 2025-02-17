@@ -1,0 +1,20 @@
+---
+title: 'Create VM'
+openapi: 'POST /projects/{id}/vms'
+---
+
+Create a new VM instance in a project.
+
+### Required Parameters
+
+- `name`: VM name
+- `type`: VM type/size
+- `location`: Deployment location
+- `ssh_public_key`: SSH public key for access
+
+### Optional Parameters
+
+- `image`: OS image name
+- `disks`: Additional disk configurations
+- `startup_script`: Script to run on startup
+- `shutdown_script`: Script to run on shutdown 

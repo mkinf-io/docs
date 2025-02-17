@@ -1,0 +1,17 @@
+---
+title: 'Sign In'
+openapi: 'POST /auth/token'
+---
+
+Authenticate with the API using email/password or refresh token. Returns an access token that can be used for subsequent requests.
+
+### Authentication Methods
+
+- **Password Grant**: Provide email and password
+- **Refresh Token Grant**: Use a refresh token to get a new access token
+
+The response includes:
+- Access token
+- Refresh token 
+- Token expiration time
+- Token type (bearer) 

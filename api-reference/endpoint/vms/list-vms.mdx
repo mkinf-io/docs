@@ -1,0 +1,18 @@
+---
+title: 'List VMs'
+openapi: 'GET /projects/{id}/vms'
+---
+
+List all VM instances in a project. Supports filtering by various parameters.
+
+### Query Parameters
+
+- `ids`: Filter by specific VM IDs
+- `names`: Filter by VM names
+- `types`: Filter by VM types
+- `locations`: Filter by locations
+- `states`: Filter by VM states
+- `limit`: Maximum number of results
+- `sort`: Sort field
+- `next_token`: Token for next page
+- `prev_token`: Token for previous page 

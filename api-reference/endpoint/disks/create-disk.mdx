@@ -1,0 +1,17 @@
+---
+title: 'Create Disk'
+openapi: 'POST /projects/{id}/disks'
+---
+
+Create a new disk in a project.
+
+### Required Parameters
+
+- `name`: Disk name
+- `size`: Size in GiB or TiB (e.g., "10GiB")
+- `location`: Deployment location
+
+### Optional Parameters
+
+- `block_size`: Block size in bytes (512 or 4096)
+- `type`: Disk type ("persistent-ssd" or "shared-volume") 

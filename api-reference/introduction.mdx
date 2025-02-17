@@ -2,32 +2,430 @@
 title: 'Introduction'
 description: 'Example section for showcasing API endpoints'
 ---
+# API v0.1 documentation
+## Getting Started
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+Welcome to **mkinf**! This guide will help you get started with our GPU on-demand platform via API. We'll walk you through the process of authentication, listing available GPUs, create a VM and setup Firewall Rules.
 
-## Welcome
+### Overview
+**mkinf** provides scalable GPU resources on demand, ideal for making inferences of AI models with variable user base. Through our API, you can manage and deploy GPU VMs easily, ensuring you have the computational power you need when you need it.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## Pricing
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+<CardGroup cols={2}>
+    <Card title="A40">
+      $1.10 / h
+    </Card>
+    <Card title="L40s">
+      $1.25 / h
+    </Card>
+    <Card title="A100 40GB PCIe">
+      $1.60 / h
+    </Card>
+    <Card title="A100 80GB PCIe">
+      $1.81 / h
+    </Card>
+    <Card title="A100 80GB SXM">
+      $2.15 / h
+    </Card>
+    <Card title="Attachable persistent disks">
+      $0.00013 / GB / h
+    </Card>
+</CardGroup>
+
+
+
+## VM specifications
+Customers can create GPU-enabled VMs with the following specs
+
+
+| Type                  | vCPU                                | GPU                              | Memory | Disk            | VPC Network |
+|-----------------------|-------------------------------------|----------------------------------|--------|-----------------|-------------|
+| a40.1x                | 6-core Intel Xeon (Ice Lake)        | 1x NVIDIA A40 48GB PCIe          | 60GB   | 1x 960GB NVMe   | 25 Gbps     |
+| a40.2x                | 12-core Intel Xeon (Ice Lake)       | 2x NVIDIA A40 48GB PCIe          | 120GB  | 2x 960GB NVMe   | 50 Gbps     |
+| a40.4x                | 24-core Intel Xeon (Ice Lake)       | 4x NVIDIA A40 48GB PCIe          | 240GB  | 4x 960GB NVMe   | 100 Gbps    |
+| a40.8x                | 48-core Intel Xeon (Ice Lake)       | 8x NVIDIA A40 48GB PCIe          | 480GB  | 8x 960GB NVMe   | 200 Gbps    |
+| a100.1x               | 12-core Intel Xeon (Ice Lake)       | 1x NVIDIA A100 40GB PCIe         | 120GB  | 1x 960GB NVMe   | 25 Gbps     |
+| a100.2x               | 24-core Intel Xeon (Ice Lake)       | 2x NVIDIA A100 40GB PCIe         | 240GB  | 2x 960GB NVMe   | 50 Gbps     |
+| a100.4x               | 48-core Intel Xeon (Ice Lake)       | 4x NVIDIA A100 40GB PCIe         | 480GB  | 4x 960GB NVMe   | 100 Gbps    |
+| a100.8x               | 96-core Intel Xeon (Ice Lake)       | 8x NVIDIA A100 40GB PCIe         | 960GB  | 8x 960GB NVMe   | 200 Gbps    |
+| a100-80gb.1x          | 12-core Intel Xeon (Ice Lake)       | 1x NVIDIA A100 80GB PCIe         | 120GB  | 1x 960GB NVMe   | 25 Gbps     |
+| a100-80gb.2x          | 24-core Intel Xeon (Ice Lake)       | 2x NVIDIA A100 80GB PCIe         | 240GB  | 2x 960GB NVMe   | 50 Gbps     |
+| a100-80gb.4x          | 48-core Intel Xeon (Ice Lake)       | 4x NVIDIA A100 80GB PCIe         | 480GB  | 4x 960GB NVMe   | 100 Gbps    |
+| a100-80gb.8x          | 96-core Intel Xeon (Ice Lake)       | 8x NVIDIA A100 80GB PCIe         | 960GB  | 8x 960GB NVMe   | 200 Gbps    |
+| l40s-48gb.1x          | 8-core AMD EPYC (Genoa)             | 1x NVIDIA L40S 48GB PCIe         | 147GB  | N/A             | 20 Gbps     |
+| l40s-48gb.2x          | 16-core AMD EPYC (Genoa)            | 2x NVIDIA L40S 48GB PCIe         | 294GB  | N/A             | 40 Gbps     |
+| l40s-48gb.4x          | 32-core AMD EPYC (Genoa)            | 4x NVIDIA L40S 48GB PCIe         | 588GB  | N/A             | 80 Gbps     |
+| l40s-48gb.8x          | 64-core AMD EPYC (Genoa)            | 8x NVIDIA L40S 48GB PCIe         | 1176GB | N/A             | 160 Gbps    |
+| l40s-48gb.10x         | 80-core AMD EPYC (Genoa)            | 10x NVIDIA L40S 48GB PCIe        | 1470GB | N/A             | 200 Gbps    |
 
 ## Authentication
+To access the mkinf API, you need to authenticate with your Access Key or email and password.
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+### Access Key
+If you want to authenticate your requests with your project Access Key, always include it in the header of your requests. 
+```http
+GET /v0.1 HTTP/1.1
+Host: api.mkinf.io
+Content-Type: application/json
+Authorization: Bearer {{access_key}}
+```
+### Email and password
+If you want to authenticate your requests using your email and password use the [Sign in](apidog://link/endpoint/9702878) endpoint.
+```http
+POST /v0.1/auth/token HTTP/1.1
+Host: api.mkinf.io
+Content-Type: application/json
 
+{
+    "grant_type": "password",
+    "email": "example@mkinf.io",
+    "password": "test1234"
+}
+```
+**Response**: You will receive the Access and Refresh tokens.
 ```json
-"security": [
+{
+    "access_token": "eyJhbG...",
+    "refresh_token": "xdclrV...",
+    "expires_in": 3600,
+    "token_type": "bearer"
+}
+```
+If you want to refresh your Access Token use the [same endpoint](apidog://link/endpoint/9702878) as follow
+```http
+POST /v0.1/auth/token HTTP/1.1
+Host: api.mkinf.io
+Content-Type: application/json
+
+{
+    "grant_type": "refresh_token",
+    "refresh_token": "xdclrV...",
+}
+```
+
+## List organizations
+Retrieve all your organizations using the [Lists Organizations](apidog://link/endpoint/9770469) endpoint
+```http
+GET /v0.1/organizations HTTP/1.1
+Host: api.mkinf.io
+Content-Type: application/json
+Authorization: Bearer {{access_key}}
+```
+**Response**
+```json
+[
   {
-    "bearerAuth": []
+    "id": "b5821b92-00d1-4d63-8ca7-c2457be75432",
+    "name": "mkinf",
+    "stripe_customer_id": "cus_QIw..."
   }
 ]
 ```
+
+## List projects
+Retrieve all your organization project using the [Lists Projects](apidog://link/endpoint/9680952) endpoint
+```http
+GET /v0.1/projects HTTP/1.1
+Host: api.mkinf.io
+Content-Type: application/json
+Authorization: Bearer {{access_key}}
+```
+**Response**
+```json
+[
+    {
+        "id": "e91bb876-3358-466d-a49a-4fb524629906",
+        "name": "mkinf",
+        "version": "v0.1",
+        "organization_id": "b5821b92-00d1-4d63-8ca7-c2457be75432"
+    }
+]
+```
+
+## Setup Billing Profile
+Before start using mkinf APIs you need to setup your billing profile.
+You can access your billing dashboard using [Billing](api-9650566).
+```http
+GET /v0.1/organizations/{organization_id}/billing HTTP/1.1
+Host: api.mkinf.io
+Authorization: Bearer {{access_token}}
+```
+**Response**: You will receive a temporary URL to your billing dashboard.
+```json
+{
+  "url": "https://billing.stripe.com/p/session/YMal3..."
+}
+```
+Make sure to insert your **payment method**.
+
+## Check available GPUs
+Check for available GPUs using the [availability](api-9650537) and [specs](api-9650538) endpoints.
+
+### [List availabilities](api-9650537)
+Retrieves the available GPUs per region.
+
+```http
+GET /v0.1/projects/{project_id}/availabilities?product_name=l40s-48gb.2x&location=us-east1-a HTTP/1.1
+Host: api.mkinf.io
+Authorization: Bearer {{access_token}}
+```
+```json
+{
+  "items": [
+    {
+        "type": "l40s-48gb.2x",
+        "location": "us-east1-a",
+        "available": true
+    },
+    ...
+  ]
+}
+```
+
+### [List specs](api-9650538)
+Retrieves the available node specs.
+
+```http
+GET /v0.1/projects/{project_id}/specs HTTP/1.1
+Host: api.mkinf.io
+Authorization: Bearer {{access_token}}
+```
+```json
+{
+  "items": [
+    {
+        "product_name": "l40s-48gb.2x",
+        "description": "NVIDIA L40S",
+        "cpu_cores": 16,
+        "cpu_type": "vCPU",
+        "memory_gb": 294,
+        "memory_type": "ram",
+        "disk_gb": 256,
+        "disk_type": "SSD",
+        "num_gpu": 2,
+        "gpu_type": "L40S-48GB"
+    },
+    ...
+  ]
+}
+```
+
+## Launch a VM
+You can [create a new VM](api-9650534) using the `type` field to specify the model and amount of GPU. You need also to pass the `location` where you want to launch the VM, you can find all the available locations using the [availability](api-9650537) or [locations](api-9650564) endpoints. Finally you have to pass your `ssh_public_key`.
+
+### 1. Generate SSH Key
+```bash
+ssh-keygen -t rsa -b 4096 -C “your_email@example.com”
+```
+
+This will create a public-private key pair in the `.ssh` directory.
+
+### 2. [List available OS images](api-9650563)
+List and choose your preferred OS image.
+
+```http
+GET /v0.1/projects/{project_id}/images HTTP/1.1
+Host: api.mkinf.io
+Authorization: Bearer {{access_token}}
+```
+
+**Response**:
+
+```json
+{
+  "items": [
+    {
+      "id": "9abde4b7-15e8-4abd-891c-42242eb3567e",
+      "name": "ubuntu22.04-nvidia-pcie-docker",
+      "description": "Ubuntu 22.04, NVIDIA Driver 535.x, CUDA 12.0, nvidia-docker",
+      "tags": [
+        "2023-11-16"
+      ],
+      "created_at": "2023-11-16T22:02:00Z",
+      "locations": [
+        "us-northcentral1-a",
+        "us-east1-a"
+      ]
+    }
+  ]
+}
+```
+
+### 3. [Create a VM](api-9650534)
+Specify the `name`, `type`, `location`, `image` and your `ssh_public_key`
+
+```http
+POST /v0.1/projects/{project_id}/vms HTTP/1.1
+Host: api.mkinf.io
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "name": "mkinf-node-01",
+  "type": "l40s-48gb.2x",
+  "location": "us-southcentral1-a",
+  "image": "ubuntu22.04-nvidia-pcie-docker"
+  "ssh_public_key": "ssh-rsa AAAAB..."
+}
+```
+You can also specify a `startup_script` as well as a `shutdown_script`.
+
+**Response**: A successful response from this resource will contain the async operation.
+
+```json
+{
+  "operation": {
+    "operation_id": "a8c24ef2-5b52-41b3-819c-f78f6c2fbff9",
+    "state": "IN_PROGRESS",
+    "metadata": { ... },
+    "result": null,
+    "started_at": "2024-06-16T20:12:16Z",
+    "completed_at": ""
+  }
+}
+```
+### 4. [Check the VM operation status](api-9650540)
+Use the `operation_id` to check the VM operation status.
+
+```http
+GET /v0.1/projects/{project_id}/vms/operations/{operation_id} HTTP/1.1
+Host: api.mkinf.io
+Authorization: Bearer {{access_token}}
+```
+**Response**: In a few seconds, the VM should be ready.
+```json
+{
+  "operation_id": "2d8fde0c-4115-462c-9bf3-547d6dae1555",
+  "state": "SUCCEEDED",
+  "metadata": {
+    "operation_name": "CREATE",
+    "id": "b3e571f6-c87d-4135-8081-ab219e92544e",
+    "type": "vm",
+    "request": { ... }
+  },
+  "result": { ... },
+  "started_at": "2024-06-16T15:52:41Z",
+  "completed_at": "2024-06-16T15:52:53Z"
+}
+```
+### 5. [Retrieve a VM](api-9650532)
+Use `metadata.id` to retrieve the instance you just created.
+```http
+GET /v0.1/projects/{project_id}/vms/{vm_id} HTTP/1.1
+Host: api.mkinf.io
+Authorization: Bearer {{access_token}}
+```
+**Response**:
+```json
+{
+  "id": "b3e571f6-c87d-4135-8081-ab219e92544e",
+  "project_id": "3291380a-19e9-4892-a139-2fa92aa740e2",
+  "type": "l40s-48gb.1x",
+  "state": "STATE_RUNNING",
+  "ssh_destination": ":0",
+  "created_at": "2024-06-16T15:52:41Z",
+  "updated_at": "2024-06-16T15:52:53Z",
+  "name": "mkinf-node",
+  "location": "us-east1-a",
+  "commitment_period": 0,
+  "commitment_end": "",
+  "disks": [
+    {
+      "id": "52822513-e425-4be9-8dd8-5c21d561ce11",
+      "name": "OS-disk-b3e571f6-c87d-4135-8081-ab219e92544e",
+      "type": "persistent-ssd",
+      "size": "128GiB",
+      "location": "vaeq-cu",
+      "block_size": 0,
+      "created_at": "2024-06-16T15:52:43Z",
+      "updated_at": "2024-06-16T15:52:44Z",
+      "serial_number": "B74EEFE8EFA0988490E",
+      "attachment_type": "os",
+      "mode": "read-write"
+    }
+  ],
+  "network_interfaces": [
+    {
+      "id": "fdf58fb1-0185-40f2-aa20-b620e8a8562d",
+      "name": "default-network-interface",
+      "network": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe",
+      "subnet": "7ceecd34-2631-4857-ad82-ceb9dfd09425",
+      "interface_type": "Ethernet",
+      "mac_address": "2e:2f:ae:ef:ae:16",
+      "ips": [
+        {
+          "private_ipv4": {
+            "address": "172.27.23.237"
+          },
+          "public_ipv4": {
+            "address": "204.52.24.84",
+            "id": "e130674a-c05e-4345-b8a4-7928c6649574",
+            "type": "dynamic"
+          }
+        }
+      ]
+    }
+  ],
+  "host_channel_adapters": [],
+  "virtualization_features": {
+    "nested_virtualization": false
+  },
+  "instance_template_id": "",
+  "instance_group_id": "",
+  "reservation_id": ""
+}
+```
+
+### 6. SSH Connection
+Use the IP address to connect to your instance via SSH.
+    
+```bash
+ssh -i ~/.ssh/YOUR_PRIVATE_KEY user@INSTANCE_IP_ADDRESS
+```
+
+Replace `YOUR_PRIVATE_KEY` with the path to your private SSH key and `INSTANCE_IP_ADDRESS` with the IP address of your instance (`public_ipv4.address`).
+
+
+### 7. Deallocate instances
+When you don't need an instance anymore you can [terminate](api-9650536) it.
+
+## Firewall Rules
+Setup your [VPC Firewall Rules](api-9650552) to have desidered access to VMs.
+
+```http
+POST /v0.1/projects/{project_id}/vpc/firewall-rules HTTP/1.1
+Host: api.mkinf.io
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "name": "mkinf-allow-tcp-udp",
+  "action": "allow",
+  "destinations": [
+    {
+      "resource_id": "75dbe735-17d6-4544-91f3-0f93c2c1c903"
+    }
+  ],
+  "direction": "ingress",
+  "protocols": [
+    "tcp",
+    "udp"
+  ],
+  "sources": [
+    {
+      "cidr": "0.0.0.0/0"
+    }
+  ],
+  "vpc_network_id": "695b751c-2eaa-4e8b-8eb2-84cb367a69fe"
+}
+```
+Use [List Networks](api-9650558) to retrieve your `vpc_network_id` and [List VMs](api-9650533) to retrieve your VM `id` and set it as `resource_id`.
+
+## Usage
+You can use [Usage](api-9650565) to retreives the products usage. Usage is updated daily shortly after midnight UTC.
+
+## Additional Tips
+- **API Documentation**: Refer to the detailed API documentation for more advanced features and configurations.
+- **Support**: Contact mkinf support for any issues or questions regarding API usage at [info@mkinf.io](mailto:info@mkinf.io).
+

@@ -1,0 +1,21 @@
+---
+title: 'Get Current User'
+openapi: 'GET /me'
+---
+
+Get information about the currently authenticated user or API key. Returns different response schemas based on whether authenticated with a user account or API key.
+
+### Response Types
+
+**User Account Response:**
+- User ID
+- Account type
+- Email
+- Creation timestamp
+- Last update timestamp
+
+**API Key Response:**
+- Key ID
+- Key type
+- Project ID
+- Creation timestamp 
