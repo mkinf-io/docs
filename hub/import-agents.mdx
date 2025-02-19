@@ -1,0 +1,77 @@
+---
+sidebarTitle: "Import Agents"
+title: "Import Agents"
+description: "This guide will walk you through importing specific AI Agents from the hub."
+---
+
+## Overview
+
+You can access mkinf hub Agents throught the [mkinf python SDK](https://pypi.org/project/mkinf/) or via REST API calls.
+
+
+### 1. Find an AI Agent
+
+Browse available AI Agents at [mkinf hub](https://hub.mkinf.io/) and select an agent that matches your use case
+
+{" "}
+<img src="/images/repository-card.png" alt="Repository card showing an AI Agent" />
+
+### 2. Copy the pull command
+
+Check the "Use Agent" section of your chosen repository for import instructions
+
+{" "}
+<img src="/images/use-agent-card.png" alt="Card showing how to import the AI Agent" />
+
+
+## Python
+
+### Import the AI Agent
+To import the agents in our platform, follow this structure:
+
+```python
+from mkinf import hub as mh
+tools = mh.pull(["owner/repository"])
+```
+
+Some tools require environment variables, including API keys, which must be created and set before use.
+
+```python
+from mkinf import hub as mh
+tools = mh.pull(
+    ["ScrapeGraphAI/scrapegraphai"],
+    env={
+        "SCRAPEGRAPH_LLM_MODEL": "openai/gpt-4o-mini",
+        "SCRAPEGRAPH_LLM_API_KEY": os.getenv("OPENAI_API_KEY")
+    },
+    timeout=120
+)
+```
+You can even set an execution timeout, the default execution timeout is **60 seconds**.
+
+<Note>Remember to configure any required environment variables specified in the agent's documentation.</Note>
+
+<Warning>Currently, mkinf tools are compatible with LangChain chains and graphs. Support for other frameworks like CrewAI, AutoGen, and SmolAgents is coming soon.</Warning>
+
+## REST API
+### Request execution
+Agents actions can also be executed directly via API call.
+```bash
+curl -X POST "https://run.mkinf.io/v0.1/<REPO_OWNER>/<REPO_NAME>:<REPO_VERSION>/<REPO_ACTION>" \
+  -H "Authorization: Bearer $MKINF_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "args": { "your_arg_key": "your_arg_value" },
+    "env": { "your_env_key": "your_env_value" },
+    "timeout": 60
+  }'
+```
+Note that you have also to include the input arguments, you can them in the **input schema** of each action.
+
+{" "}
+<img src="/images/action.png" alt="Card showing AI Agent input and output schema" />
+
+## Next Steps
+
+- Check out our [SDK repository](https://github.com/mkinf-io/mkinf-py/tree/main/examples) for implementation samples
+- Join our [Slack community](https://join.slack.com/t/mkinf-community/shared_invite/zt-2wa3mqqsx-27qHzCok~BCdZTowifer~g) for support

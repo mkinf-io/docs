@@ -29,7 +29,9 @@
           {
             "group": "Hub",
             "pages": [
-              "hub/get-started"
+              "hub/get-started",
+              "hub/import-agents",
+              "hub/create-agents"
             ]
           },
           {
